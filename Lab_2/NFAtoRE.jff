@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><!--Created with JFLAP 7.1.--><structure>&#13;
+	<type>re</type>&#13;
+	<!--The regular expression.-->&#13;
+	<expression>(000+((1+01)1*0+0011*0)0)*(λ+0+(1+01)1*+00(λ+11*)+(1+01)1*0+0011*0)</expression>&#13;
+</structure>

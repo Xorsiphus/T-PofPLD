@@ -13,8 +13,8 @@ class CYK:
 
     def init_step(self, word):
         self._table = [[{}  # r
-                        ]  # n
-                       ]  # n
+                        for _ in range(self._word_length + 1)]  # n
+                       for _ in range(self._word_length + 1)]   # n
 
         for j in range(1, len(word) + 1):
             for key, value in self._grammar.items():
@@ -62,8 +62,9 @@ if __name__ == "__main__":
         "H": ["0", "1"],
         "I": ["HI", "HK", "HD"],
         "J": ["-"],
-        "O": ["*", "/", "%", "+", "-"],
-        "K": ["OD"],
+        "O": ["*", "/", "%"],
+        "P": ["+", "-"],
+        "K": ["OD", "PD"],
         "M": ["GN"],
         "N": ["OD"],
     }

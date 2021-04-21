@@ -1,3 +1,5 @@
+import sys
+
 EOI = 0
 NUM = 1
 VAR = 2
@@ -20,7 +22,7 @@ MATCHING_DICT = {
     NUM: ['0', '1', '2', '3', '4',
           '5', '6', '7', '8', '9'],
     VAR: ['a', 'b', 'c', 'd', 'e', 'f'],
-    NEGATIVE: ['-'],
+    NEGATIVE: ['!'],
     ADDITIVE: ['+', '-'],
     MULTI: ['*', '/', '%'],
     LB: ['('],
@@ -61,6 +63,9 @@ class RDParser:
         elif len(RDParser.str_for_parse) > RDParser.input_index + 1:
             temp_token = UNKNOWN
 
+        if temp_token == UNKNOWN:
+            RDParser.raise_error(Exception('Unknown input symbol!'))
+
         if temp_token != EOI:
             RDParser.input_index += 1
             return temp_token, RDParser.str_for_parse[RDParser.input_index - 1]
@@ -71,19 +76,22 @@ class RDParser:
         RDParser.input_index -= 1
 
     @staticmethod
-    def raise_error():
+    def raise_error(exc=Exception('Wrong input!')):
         print('Rejected!')
-        exit(1)
+        raise exc
 
     @staticmethod
     def parse(str_for_parse):
 
+        RDParser.input_index = 0
         RDParser.str_for_parse = str_for_parse + '$'
 
-        if RDParser.start() == 0:
+        if RDParser.start() == 0 and len(str_for_parse) == RDParser.input_index + 1:
             print('Accepted!')
+            return True
         else:
             print('Rejected!')
+            return False
 
     @staticmethod
     def start():
@@ -166,7 +174,7 @@ class RDParser:
         token = RDParser.get_next_token()
         if token[TOKEN] == MULTI:
             res += RDParser.d_func()
-        if token[TOKEN] == ADDITIVE:
+        elif token[TOKEN] == ADDITIVE:
             RDParser.token_rollback()
             res += RDParser.h_func()
         else:
@@ -180,6 +188,7 @@ class RDParser:
         if token[TOKEN] == NUM:
             res += RDParser.g_func()
         else:
+            RDParser.token_rollback()
             res += SUCCESS
         return res
 
@@ -195,8 +204,17 @@ class RDParser:
 
 
 def main():
-    temp = input()
-    RDParser.parse(temp)
+    if len(sys.argv) > 1:
+        try:
+            RDParser.parse(sys.argv[1])
+        except Exception as e:
+            print(e)
+    else:
+        temp = input()
+        try:
+            RDParser.parse(temp)
+        except Exception as e:
+            print(e)
 
 
 if __name__ == "__main__":

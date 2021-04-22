@@ -147,7 +147,7 @@
 	</production>&#13;
 	<production>&#13;
 		<left>D</left>&#13;
-		<right>!D</right>&#13;
+		<right>@D</right>&#13;
 	</production>&#13;
 	<production>&#13;
 		<left>E</left>&#13;

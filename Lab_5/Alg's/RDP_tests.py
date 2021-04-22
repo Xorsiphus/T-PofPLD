@@ -54,7 +54,7 @@ def test_my_grammar_4():
 
 
 def test_my_grammar_5():
-    cur_word = "a=a*b;b=c+d;"
+    cur_word = "a=a*!b;b=c+d;"
 
     t = False
 
